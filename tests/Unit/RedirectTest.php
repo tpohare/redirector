@@ -20,26 +20,26 @@ class RedirectTests extends TestCase
     const PATH = "/posts/all";
     const QUERY_STRING = "?bob=1&jack=2";
 
-    function test_Throws404_WhenOldDoesntExist() {
+    public function test_Throws404_WhenOldDoesntExist() {
         $this->assertThrows(ModelNotFoundException::class, function() {
             Redirect::for(self::ALTA_VISTA);
         });
     }
 
-    function test_ReturnsNew_WhenOldExists() {
+    public function test_ReturnsNew_WhenOldExists() {
         $redirect = Redirect::for(self::YAHOO);
 
         $this -> assertEquals(self::GOOGLE, $redirect -> new);
     }
 
-    function test_ThrowsAnException_WhenTheSameOldUrlIsAddedTwice() {
+    public function test_ThrowsAnException_WhenTheSameOldUrlIsAddedTwice() {
         $this -> assertThrows(QueryException::class, function() {
             $this -> createANewRedirect();
             $this -> createANewRedirect();
         });
     }
 
-    function test_ReturnsNewWithPath_WhenPreservePathIsTrue() {
+    public function test_ReturnsNewWithPath_WhenPreservePathIsTrue() {
         $this -> createANewRedirectWithPath();
         $old = self::YAHOO . self::PATH;
 
@@ -48,7 +48,7 @@ class RedirectTests extends TestCase
         $this -> assertEquals(self::GOOGLE . self::PATH, $redirect -> new());
     }
 
-    function test_ReturnsNewWithQueryString_WhenPreservePathIsTrue() {
+    public function test_ReturnsNewWithQueryString_WhenPreservePathIsTrue() {
         $this -> createANewRedirectWithQueryString();
         $old = self::YAHOO . self::QUERY_STRING;
 
@@ -57,7 +57,7 @@ class RedirectTests extends TestCase
         $this -> assertEquals(self::GOOGLE . self::QUERY_STRING, $redirect -> new());
     }
 
-    function test_ReturnsNewWithPathAndQueryString_WhenPreservePathIsTrue() {
+    public function test_ReturnsNewWithPathAndQueryString_WhenPreservePathIsTrue() {
         $this -> createANewRedirectWithPathAndQueryString();
         $old = self::YAHOO . self::PATH . self::QUERY_STRING;
 
