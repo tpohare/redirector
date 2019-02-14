@@ -20,6 +20,12 @@ class RedirectTests extends TestCase
     const PATH = "/posts/all";
     const QUERY_STRING = "?bob=1&jack=2";
 
+    protected function setUp() {
+        parent::setUp();
+
+        $this -> createANewRedirect();
+    }
+
     public function test_Throws404_WhenOldDoesntExist() {
         $this->assertThrows(ModelNotFoundException::class, function() {
             Redirect::for(self::ALTA_VISTA);
@@ -40,7 +46,7 @@ class RedirectTests extends TestCase
     }
 
     public function test_ReturnsNewWithPath_WhenPreservePathIsTrue() {
-        $this -> createANewRedirectWithPath();
+        $this -> createANewRedirect(self::PATH, null, true);
         $old = self::YAHOO . self::PATH;
 
         $redirect = Redirect::for($old);
@@ -49,7 +55,7 @@ class RedirectTests extends TestCase
     }
 
     public function test_ReturnsNewWithQueryString_WhenPreservePathIsTrue() {
-        $this -> createANewRedirectWithQueryString();
+        $this -> createANewRedirect(null, self::QUERY_STRING, true);
         $old = self::YAHOO . self::QUERY_STRING;
 
         $redirect = Redirect::for($old);
@@ -58,7 +64,7 @@ class RedirectTests extends TestCase
     }
 
     public function test_ReturnsNewWithPathAndQueryString_WhenPreservePathIsTrue() {
-        $this -> createANewRedirectWithPathAndQueryString();
+        $this -> createANewRedirect(self::PATH, self::QUERY_STRING, true);
         $old = self::YAHOO . self::PATH . self::QUERY_STRING;
 
         $redirect = Redirect::for($old);
@@ -66,55 +72,27 @@ class RedirectTests extends TestCase
         $this -> assertEquals(self::GOOGLE . self::PATH . self::QUERY_STRING, $redirect -> new());
     }
 
-    protected function setUp() {
-        parent::setUp();
-
-        $this -> createANewRedirect();
-    }
-
-    private function createANewRedirect() {
+    private function createANewRedirect($path = null, $queryString = null, $preserve_path = false) {
         $startData = [
-            "old" => self::YAHOO, 
-            "new" => self::GOOGLE,
-            "code" => 302
-        ];
-        $redirect = new Redirect($startData);
-        $redirect -> save();
-    }
-
-    private function createANewRedirectWithPath() {
-        $startData = [
-            "old" => self::YAHOO . self::PATH, 
+            "old" => $this -> buildUrl(self::YAHOO, $path, $queryString), 
             "new" => self::GOOGLE,
             "code" => 302,
-            "preserve_path" => true,
+            "preserve_path" => $preserve_path,
         ];
-        $redirect = new Redirect($startData);
 
+        $redirect = new Redirect($startData);
         $redirect -> save();
     }
 
-    private function createANewRedirectWithQueryString() {
-        $startData = [
-            "old" => self::YAHOO . self::QUERY_STRING, 
-            "new" => self::GOOGLE,
-            "code" => 302,
-            "preserve_path" => true,
-        ];
-        $redirect = new Redirect($startData);
+    private function buildUrl($base, $path, $queryString) {
+        $url = $base;
 
-        $redirect -> save();
-    }
+        if ($path)
+            $url .= $path;
 
-    private function createANewRedirectWithPathAndQueryString() {
-        $startData = [
-            "old" => self::YAHOO . self::PATH . self::QUERY_STRING, 
-            "new" => self::GOOGLE,
-            "code" => 302,
-            "preserve_path" => true,
-        ];
-        $redirect = new Redirect($startData);
+        if ($queryString)
+            $url .= $queryString;
 
-        $redirect -> save();
+        return $url;
     }
 }
