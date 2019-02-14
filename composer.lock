@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66ca7343889332c2b8ecca11c251430c",
+    "content-hash": "d87897e165d5be1ad12e37eb90ee065a",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -636,6 +636,39 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jchook/phpunit-assert-throws",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jchook/phpunit-assert-throws.git",
+                "reference": "14a6769e1a6009e748360f6fe686610cfbf4a300"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jchook/phpunit-assert-throws/zipball/14a6769e1a6009e748360f6fe686610cfbf4a300",
+                "reference": "14a6769e1a6009e748360f6fe686610cfbf4a300",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jchook\\AssertThrows\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wes Roberts",
+                    "email": "u36g@a.zinc.email"
+                }
+            ],
+            "description": "Exception assertions for PHPUnit",
+            "time": "2018-04-07T02:44:24+00:00"
         },
         {
             "name": "laravel/framework",
