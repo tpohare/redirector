@@ -46,7 +46,7 @@ class RedirectTests extends TestCase
     }
 
     public function test_ReturnsNewWithPath_WhenPreservePathIsTrue() {
-        $this -> createANewRedirect(self::PATH, null, true);
+        $this -> createANewRedirect(self::PATH, null, true, 301);
         $old = self::YAHOO . self::PATH;
 
         $redirect = Redirect::for($old);
@@ -55,7 +55,7 @@ class RedirectTests extends TestCase
     }
 
     public function test_ReturnsNewWithQueryString_WhenPreservePathIsTrue() {
-        $this -> createANewRedirect(null, self::QUERY_STRING, true);
+        $this -> createANewRedirect(null, self::QUERY_STRING, true, 302);
         $old = self::YAHOO . self::QUERY_STRING;
 
         $redirect = Redirect::for($old);
@@ -72,11 +72,11 @@ class RedirectTests extends TestCase
         $this -> assertEquals(self::GOOGLE . self::PATH . self::QUERY_STRING, $redirect -> new());
     }
 
-    private function createANewRedirect($path = null, $queryString = null, $preserve_path = false) {
+    private function createANewRedirect($path = null, $queryString = null, $preserve_path = false, $code = 302) {
         $startData = [
             "old" => $this -> buildUrl(self::YAHOO, $path, $queryString), 
             "new" => self::GOOGLE,
-            "code" => 302,
+            "code" => $code,
             "preserve_path" => $preserve_path,
         ];
 
