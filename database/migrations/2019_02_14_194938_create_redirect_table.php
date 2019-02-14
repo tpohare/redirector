@@ -18,6 +18,7 @@ class CreateRedirectTable extends Migration
             $table->text('old')->unique();
             $table->text('new');
             $table->integer('code');
+            $table->boolean('preserve_path') -> default(false);
             $table->timestamps();
         });
     }
