@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+Route::get('/', function (Illuminate\Http\Request $request) {
+    $redirect = App\Redirect::for($request->fullUrl());
+    
+    return redirect($redirect -> new, $redirect -> code);
 });

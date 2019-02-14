@@ -45,9 +45,9 @@ class RedirectTests extends TestCase
 
     function test_ReturnsNew_WhenOldExists() 
     {
-        $new = Redirect::for(self::YAHOO);
+        $redirect = Redirect::for(self::YAHOO);
 
-        $this -> assertEquals(self::GOOGLE, $new);
+        $this -> assertEquals(self::GOOGLE, $redirect -> new);
     }
 
     function test_ThrowsAnException_WhenTheSameOldUrlIsAddedTwice() 
