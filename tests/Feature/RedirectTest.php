@@ -15,11 +15,6 @@ class RedirectTests extends TestCase
     const ALTA_VISTA = "http://altavista.com";
     const FOUROHFOUR = "Page Not Found";
 
-    protected function setUp() 
-    {
-        parent::setUp();
-    }
-
     public function test404()
     {
        $response = $this->get('/');
