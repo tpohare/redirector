@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Redirect;
 use Jchook\AssertThrows\AssertThrows;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 class RedirectTests extends TestCase
 {
@@ -17,13 +18,15 @@ class RedirectTests extends TestCase
     const YAHOO = "https://yahoo.com";
     const ALTA_VISTA = "http://altavista.com";
 
-    protected function setUp() {
+    protected function setUp() 
+    {
         parent::setUp();
 
-       $this -> createANewRedirect();
+        $this -> createANewRedirect();
     }
 
-    private function createANewRedirect() {
+    private function createANewRedirect() 
+    {
         $startData = [
             "old" => self::YAHOO, 
             "new" => self::GOOGLE,
@@ -33,22 +36,25 @@ class RedirectTests extends TestCase
         $redirect -> save();
     }
     
-    function test_Throws404_WhenOldDoesntExist() {
+    function test_Throws404_WhenOldDoesntExist() 
+    {
         $this->assertThrows(ModelNotFoundException::class, function() {
             Redirect::for(self::ALTA_VISTA);
         });
     }
 
-    function test_ReturnsNew_WhenOldExists() {
+    function test_ReturnsNew_WhenOldExists() 
+    {
         $new = Redirect::for(self::YAHOO);
 
         $this -> assertEquals(self::GOOGLE, $new);
     }
 
-    function test_ThrowsAnException_WhenTheSameRedirectIsAddedTwice() {
-        $this -> assertThrows(ModelNotFoundException::class, function() {
+    function test_ThrowsAnException_WhenTheSameOldUrlIsAddedTwice() 
+    {
+        $this -> assertThrows(QueryException::class, function() {
             $this -> createANewRedirect();
             $this -> createANewRedirect();
-        })
+        });
     }
 }
