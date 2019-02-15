@@ -6,8 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Redirect;
 
-class RedirectTests extends TestCase
-{
+class RedirectTests extends TestCase {
     use RefreshDatabase;
 
     const TEST = "http://localhost";
@@ -15,8 +14,7 @@ class RedirectTests extends TestCase
     const ALTA_VISTA = "http://altavista.com";
     const FOUROHFOUR = "Page Not Found";
 
-    public function test404()
-    {
+    public function test404() {
        $response = $this->get('/');
        $content = $response -> content();
 
@@ -24,8 +22,7 @@ class RedirectTests extends TestCase
        $this -> assertContains(self::FOUROHFOUR, $content);
     }
 
-    public function test301()
-    {
+    public function test301() {
         $this -> createARedirect(self::ALTA_VISTA, 301);
         
         $response = $this->get('/');
@@ -36,8 +33,7 @@ class RedirectTests extends TestCase
         $this -> assertContains($response_string, $content);
     }
 
-    public function test302()
-    {
+    public function test302() {
         $this -> createARedirect(self::YAHOO, 302);
 
         $response = $this->get('/');
@@ -48,8 +44,7 @@ class RedirectTests extends TestCase
         $this -> assertContains($response_string, $content);
     }
 
-    private function createARedirect($new, $code) 
-    {
+    private function createARedirect($new, $code) {
         // The redirect is always from http://localhost when testing
         $startData = [
             "old" => self::TEST, 

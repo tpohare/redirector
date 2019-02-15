@@ -16,7 +16,8 @@ class RedirectTests extends TestCase
 
     const GOOGLE = "https://google.com";
     const YAHOO = "https://yahoo.com";
-    const ALTA_VISTA = "http://altavista.com";
+    const ALTA_VISTA = "https://altavista.com";
+    const ALTA_VISTA_PATTERN = "https://altavista.com/$2/$1";
     const PATH = "/posts/all";
     const QUERY_STRING = "?bob=1&jack=2";
 
@@ -70,6 +71,23 @@ class RedirectTests extends TestCase
         $redirect = Redirect::for($old);
 
         $this -> assertEquals(self::GOOGLE . self::PATH . self::QUERY_STRING, $redirect -> new());
+    }
+
+    public function test_ReplacesPlaceholdersWithPath() {
+        $old =  $this -> buildUrl(self::YAHOO, self::PATH, null);
+        $startData = [
+            "old" => $old, 
+            "new" => self::ALTA_VISTA_PATTERN,
+            "code" => 301,
+            "preserve_path" => false,
+        ];
+
+        (new Redirect($startData)) -> save();
+
+        $redirect = Redirect::for($old);
+        $new = "https://altavista.com/all/posts";
+        $this -> assertEquals($new, $redirect -> new());
+    
     }
 
     private function createANewRedirect($path = null, $queryString = null, $preserve_path = false, $code = 302) {
