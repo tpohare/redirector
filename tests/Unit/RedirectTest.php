@@ -87,7 +87,6 @@ class RedirectTests extends TestCase
         $redirect = Redirect::for($old);
         $new = "https://altavista.com/all/posts";
         $this -> assertEquals($new, $redirect -> new());
-    
     }
 
     private function createANewRedirect($path = null, $queryString = null, $preserve_path = false, $code = 302) {
