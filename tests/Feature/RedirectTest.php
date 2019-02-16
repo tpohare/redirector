@@ -47,8 +47,8 @@ class RedirectTests extends TestCase {
     private function createARedirect($new, $code) {
         // The redirect is always from http://localhost when testing
         $startData = [
-            "old" => self::TEST, 
-            "new" => $new,
+            "old_url" => self::TEST, 
+            "new_url" => $new,
             "code" => $code
         ];
         $redirect = new Redirect($startData);

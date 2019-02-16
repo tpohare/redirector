@@ -15,10 +15,11 @@ class CreateRedirectTable extends Migration
     {
         Schema::create('redirects', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('old_url');
             $table->text('new_url');
+            $table->text('old_url');
             $table->integer('code');
             $table->boolean('preserve_path') -> default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

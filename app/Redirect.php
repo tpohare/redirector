@@ -3,17 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Redirect extends Model {
-    protected $fillable = ["old", "new", "code", "preserve_path"];
+    use SoftDeletes;
+
+    protected $fillable = ["old_url", "new_url", "code", "preserve_path"];
+    protected $dates = ['deleted_at'];
 
     static function for($old) {
-        return Redirect::where("old", $old) -> firstOrFail();
+        return Redirect::where("old_url", $old) -> firstOrFail();
     }
 
     public function new() {
         if ($this -> preserve_path)
-            return $this -> new . $this -> path($this -> old);
+            return $this -> new_url . $this -> path($this -> old_url);
 
         $url = $this -> replaceComponents();
         return $url;
@@ -28,16 +32,16 @@ class Redirect extends Model {
     }
 
     private function replaceComponents() {
-        $new_components =  \parse_url($this -> new)["path"] ?? "";
+        $new_components =  \parse_url($this -> new_url)["path"] ?? "";
         $old_components = $this -> oldComponents();
         $replaced_path = strtr($new_components, $old_components);
 
-        return str_replace($new_components, $replaced_path, $this -> new);
+        return str_replace($new_components, $replaced_path, $this -> new_url);
     }
 
     private function oldComponents() {
         $components = [];
-        $old_components = explode("/", \parse_url($this -> old)["path"] ?? "");
+        $old_components = explode("/", \parse_url($this -> old_url)["path"] ?? "");
 
         foreach($old_components as $index => $component) {
             $components["$" . $index] = $component;

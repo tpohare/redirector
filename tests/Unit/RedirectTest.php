@@ -36,7 +36,7 @@ class RedirectTests extends TestCase
     public function test_ReturnsNew_WhenOldExists() {
         $redirect = Redirect::for(self::YAHOO);
 
-        $this -> assertEquals(self::GOOGLE, $redirect -> new);
+        $this -> assertEquals(self::GOOGLE, $redirect -> new_url);
     }
 
     public function test_ThrowsAnException_WhenTheSameOldUrlIsAddedTwice() {
@@ -76,8 +76,8 @@ class RedirectTests extends TestCase
     public function test_ReplacesPlaceholdersWithPath() {
         $old =  $this -> buildUrl(self::YAHOO, self::PATH, null);
         $startData = [
-            "old" => $old, 
-            "new" => self::ALTA_VISTA_PATTERN,
+            "old_url" => $old, 
+            "new_url" => self::ALTA_VISTA_PATTERN,
             "code" => 301,
             "preserve_path" => false,
         ];
@@ -91,8 +91,8 @@ class RedirectTests extends TestCase
 
     private function createANewRedirect($path = null, $queryString = null, $preserve_path = false, $code = 302) {
         $startData = [
-            "old" => $this -> buildUrl(self::YAHOO, $path, $queryString), 
-            "new" => self::GOOGLE,
+            "old_url" => $this -> buildUrl(self::YAHOO, $path, $queryString), 
+            "new_url" => self::GOOGLE,
             "code" => $code,
             "preserve_path" => $preserve_path,
         ];
