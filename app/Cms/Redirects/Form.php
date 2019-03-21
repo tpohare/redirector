@@ -4,10 +4,11 @@ namespace App\Cms\Redirects;
 
 use Code16\Sharp\Form\SharpForm;
 use App\Redirect;
-use Code16\Sharp\Form\Fields\SharpFormTextField;
-use Code16\Sharp\Form\Fields\SharpFormCheckField;
 use Code16\Sharp\Form\Layout\FormLayoutColumn;
 use Code16\Sharp\Form\Eloquent\WithSharpFormEloquentUpdater;
+use App\Cms\UI\TextInput;
+use App\Cms\UI\Checkbox;
+
 
 class Form extends SharpForm
 {
@@ -15,19 +16,10 @@ class Form extends SharpForm
 
     function buildFormFields()
     {
-        $this->addField(
-            SharpFormTextField::make("old_url")
-                ->setLabel("From:")
-        )->addField(
-            SharpFormTextField::make("new_url")
-                ->setLabel("To:")
-        )->addField(
-            SharpFormTextField::make("code")
-                ->setLabel("Code:")
-        )->addField(
-            SharpFormCheckField::make("preserve_path", "Preserve Path") 
-                -> setLabel("Preserve Path: ")
-        );
+        $this   -> addField(TextInput::make ("old_url", "From: "))
+                -> addField(TextInput::make ("new_url", "To: "))
+                -> addField(TextInput::make ("code", "Code: "))
+                -> addField(Checkbox::make  ("preserve_path", "Preserve Path", "Preserve Path: "));
     }
 
     function buildFormLayout()
